@@ -1,27 +1,33 @@
 package it.polito.tdp.borders.model;
 
 public class Adiacenza {
+	
+	private Country c1;
+	private Country c2;
+	
+	public Adiacenza(Country c1, Country c2) {
+		
+		this.c1 = c1;
+		this.c2 = c2;
+	}
 
-	private int state1no ;
-	private int state2no ;
+	public Country getC1() {
+		return c1;
+	}
+
+	public void setC1(Country c1) {
+		this.c1 = c1;
+	}
+
+	public Country getC2() {
+		return c2;
+	}
+
+	public void setC2(Country c2) {
+		this.c2 = c2;
+	} 
 	
-	public Adiacenza(int state1no, int state2no) {
-		super();
-		this.state1no = state1no;
-		this.state2no = state2no;
-	}
-	public int getState1no() {
-		return state1no;
-	}
-	public void setState1no(int state1no) {
-		this.state1no = state1no;
-	}
-	public int getState2no() {
-		return state2no;
-	}
-	public void setState2no(int state2no) {
-		this.state2no = state2no;
-	}
 	
+
 	
 }

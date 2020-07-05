@@ -37,29 +37,7 @@ public class FXMLController {
 
     @FXML
     void doCalcolaConfini(ActionEvent event) {
-    	txtResult.clear();
-    	String annoS = txtAnno.getText();
-		try {
-			int anno = Integer.parseInt(annoS);
 
-			model.creaGrafo(anno);
-			
-			List<CountryAndNumber> list = model.getCountryAndNumber();
-
-			if (list.size() == 0) {
-				txtResult.appendText("Non ci sono stati corrispondenti\n");
-			} else {
-				txtResult.appendText("Stati nell'anno "+anno+"\n");
-				for (CountryAndNumber c : list) {
-					txtResult.appendText(String.format("%s %d\n",
-							c.getCountry().getStateName(), c.getNumber()));
-				}
-			}
-
-		} catch (NumberFormatException e) {
-			txtResult.appendText("Errore di formattazione dell'anno\n");
-			return;
-		}
     }
 
     @FXML

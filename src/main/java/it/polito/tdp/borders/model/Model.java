@@ -15,41 +15,44 @@ import it.polito.tdp.borders.db.BordersDAO;
 
 public class Model {
 	
-	private Graph<Country, DefaultEdge> graph ;
-	private Map<Integer,Country> countriesMap ;
-	
+    private Graph<Country,DefaultEdge> grafo;
+    private Map<Integer,Country> idMap;
+    private BordersDAO dao;
+    
 	public Model() {
-		this.countriesMap = new HashMap<>() ;
+		
+		dao = new BordersDAO();
+		
 
 	}
 	
 	public void creaGrafo(int anno) {
 		
-		this.graph = new SimpleGraph<>(DefaultEdge.class) ;
-
-		BordersDAO dao = new BordersDAO() ;
+		grafo = new SimpleGraph<Country, DefaultEdge>(DefaultEdge.class);
+        
+		idMap = new HashMap<>();
 		
-		//vertici
-		dao.getCountriesFromYear(anno,this.countriesMap) ;
-		Graphs.addAllVertices(graph, this.countriesMap.values()) ;
+		List<Country> countries = dao.loadAllCountries(idMap);
 		
-		// archi
-		List<Adiacenza> archi = dao.getCoppieAdiacenti(anno) ;
-		for( Adiacenza c: archi) {
-			graph.addEdge(this.countriesMap.get(c.getState1no()), 
-					this.countriesMap.get(c.getState2no())) ;
-			
+		for(Adiacenza a: dao.getAdiacenze(idMap, anno)) {
+			if(!this.grafo.containsVertex(a.getC1())) {
+				this.grafo.addVertex(a.getC1());
+			}
+			if(!this.grafo.containsVertex(a.getC2())) {
+				this.grafo.addVertex(a.getC2());
+			}
+			Graphs.addEdgeWithVertices(this.grafo, a.getC1(), a.getC2());
 		}
 	}
 	
-	public List<CountryAndNumber> getCountryAndNumber() {
-		List<CountryAndNumber> list = new ArrayList<>() ;
-		
-		for(Country c: graph.vertexSet()) {
-			list.add(new CountryAndNumber(c, graph.degreeOf(c))) ;
-		}
-		Collections.sort(list);
-		return list ;
+	public int nVertici() {
+		return this.grafo.vertexSet().size();
 	}
+	
+	public int nArchi() {
+		return this.grafo.edgeSet().size();
+	}
+	
+	
 
 }
